@@ -175,7 +175,36 @@
         </div>  
       </div>
 
-    </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">Notes</div>
+        <div class="panel-body">
+          <table class="table table-condensed">
+            <tr v-if="doc.notes">
+              <th>note</th>
+              <th>who</th>
+              <th>when</th>
+            </tr>
+            <tr v-for="note in doc.notes">
+              <td>{{ note.note }}</td>
+              <td>{{ note.who }}</td>
+              <td>{{ note.time }}</td>
+            </tr>
+            <tr>
+              <td colspan="3">
+                <form v-on:submit.prevent="addNote" class="form-inline">
+                  <div class="form-group">
+                    <label for="note">Add Note</label>
+                    <input v-model="notetxt" type="text" class="form-control" id="note" placeholder="note text">
+                  </div>
+                  <button type="submit" class="btn btn-default">Save</button>
+                </form>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+    </div> <!-- single document edit -->
 
     <!-- profile editor -->
     <div v-if="mode==='profile'" class="container">
