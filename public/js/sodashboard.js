@@ -264,7 +264,7 @@ db.get('_local/user').then(function(data) {
       .on('change', app.onSyncChange)
       .on('paused', app.onSyncPaused)
       .on('error', app.onSyncError);
-  });
+  }).on('error', app.onSyncError);;
 
 
   // parse the hash
