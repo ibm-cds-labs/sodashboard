@@ -256,10 +256,16 @@ db.get('_local/user').then(function(data) {
   var auth = data.username + ':' + data.password;
   var url = data.url.replace(/\/\//, '//' + auth + '@');
   var opts = { live: true, retry: true };
-  db.sync(url, opts)
-    .on('change', app.onSyncChange)
-    .on('paused', app.onSyncPaused)
-    .on('error', app.onSyncError);
+
+  db.replicate.from(url).on('complete', function(info) {
+    console.log(info);
+    console.log('initial sync complete - now syncing');
+    db.sync(url, opts)
+      .on('change', app.onSyncChange)
+      .on('paused', app.onSyncPaused)
+      .on('error', app.onSyncError);
+  });
+
 
   // parse the hash
   if (window.location.hash && window.location.hash !== '#') {
