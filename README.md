@@ -28,7 +28,7 @@ The web page `home.html` contains the entire web app. It uses the following tech
 - PouchDB - an in-browser database that syncs with Cloudant
 - Bootstrap - an HTML/CSS framework for creating responsive websites
 - Vue.js - a framework that moves data between your client-side JavaScript code and the HTML DOM
-- Zepto.js - a super-lightweight jQuery clone
+- jQuery.js - the popular library
 
 On loading `home.html` the user and Cloudant credentials are loaded from PouchDB (the `_local/user` document) and a two-way "sync" replication is set up between PouchDB and Cloudant.
 

@@ -47,6 +47,25 @@ var app = new Vue({
     }
   },
   methods: {
+    notify: function(msg) {
+      var opts = {
+        element: 'body',
+        position: null,
+        type: "info",
+        allow_dismiss: true,
+        newest_on_top: false,
+        offset: 20,
+        spacing: 10,
+        z_index: 1031,
+        delay: 2500,
+        timer: 1000,
+        animate: {
+          enter: 'animated fadeInDown',
+          exit: 'animated fadeOutUp'
+        }
+      }
+      $.notify({message: msg},opts);
+    },
     edit: function(docid) {
       db.get(docid).then(function(data) {
         app.doc = data;
@@ -211,6 +230,7 @@ var app = new Vue({
           } else {
             doc._rev = reply.rev;
           }
+          app.notify('Question ' + doc._id + ' reassigned');
         });
       }
     },
@@ -232,6 +252,7 @@ var app = new Vue({
         db.put(doc).then(function(reply) {
           doc._rev = reply.rev;
           app.removeFromList(id);
+          app.notify('Question ' + doc._id + ' rejected');
         });
       }
     },
@@ -252,6 +273,7 @@ var app = new Vue({
         db.put(doc).then(function(reply) {
           doc._rev = reply.rev;
           app.removeFromList(id);
+          app.notify('Question ' + doc._id + ' answered');
         });
       }
     },
