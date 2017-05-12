@@ -23,7 +23,8 @@ var app = new Vue({
     syncInProgress: false,
     syncError: false,
     syncComplete: false,
-    search: ''
+    search: '',
+    notetxt: ''
   },
   computed: {
     sortedDocs: function () {
@@ -50,7 +51,23 @@ var app = new Vue({
       db.get(docid).then(function(data) {
         app.doc = data;
         app.mode = 'edit';
+        app.notetxt = '';
         window.location.hash = '#edit?' + docid;
+      });
+    },
+    addNote: function() {
+      if (!app.doc.notes) {
+        app.doc.notes = [];
+      }
+      var obj = {
+        time: new Date().toISOString(),
+        note: app.notetxt,
+        who: app.loggedinuser.user_name
+      };
+      app.doc.notes.push(obj);
+      db.put(app.doc).then(function(data) {
+        app.doc._rev = data.rev;
+        app.notetxt = '';
       });
     },
     profileEditor: function() {
