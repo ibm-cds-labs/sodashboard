@@ -121,19 +121,61 @@
           <span v-for="tag in doc.question.tags" class="label label-default tag">{{ tag }}</span>
         </div>
         <div class="col-md-2">
-          <select v-if="!doc.answered && !doc.rejected" v-model="doc.owner">
+          <select v-bind:readonly="doc.answered || doc.rejected" v-model="doc.owner">
             <option value="">----</option>
             <option v-for="(user, i) in userlist" :value="i">{{ user }}</option>
           </select>
           <button v-if="!doc.answered && !doc.rejected" class="btn btn-default" v-on:click="assign(doc._id)">Assign</button>
         </div>
         <div class="col-md-2">
-          <button v-if="!doc.answered && !doc.rejected" class="btn btn-default" v-on:click="reject(doc._id)">Reject</button>
-          <button v-if="mode=='mytickets'" class="btn btn-success" v-on:click="answered(doc._id)">Answered</button>
+          <button v-on:click="edit(doc._id)" class="btn btn-default">Edit</button>
         </div>
       </div>
     </div> <!--- container -->
 
+    <!-- single document edit -->
+    <div v-if="mode==='edit' && doc" class="container">
+      <h2>Edit Question</h2>
+      <div class="panel panel-default">
+        <div class="panel-heading">Stack Overflow data</div>
+        <div class="panel-body">
+          <div>ID {{doc._id}}</div>
+          <div>Title:  <a :href="doc.question.link" target="_new">{{ doc.question.title}}</a></div>
+          <div>Creator: <a class="owner" :href="doc.question.owner.link" target="_new">{{ doc.question.owner.display_name }} ({{ doc.question.owner.reputation }})</a></div>
+          <div>Tags: <span v-for="tag in doc.question.tags" class="label label-default tag">{{ tag }}</span> </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">Status</div>
+        <div class="panel-body">
+          <h4>Ownership</h4>
+          <select v-model="doc.owner" v-bind:disabled="doc.answered || doc.rejected">
+            <option value="">----</option>
+            <option v-for="(user, i) in userlist" :value="i">{{ user }}</option>
+          </select>
+          <button  v-if="!doc.answered && !doc.rejected" class="btn btn-default" v-on:click="assign(doc._id)">Assign</button>  
+          <div v-if="doc.rejected || !doc.answered" >   
+            <hr>
+            <h4>Rejected</h4>
+            <div class="form-group">
+              <label for="rejection_reason">Reason</label>
+              <input v-model="doc.rejection_reason" type="string" class="form-control" id="rejection_reason" placeholder="why was this question rejected?" v-bind:disabled="doc.answered || doc.rejected">
+            </div>
+            <button v-if="!doc.answered && !doc.rejected" class="btn btn-danger" v-on:click="reject(doc._id)">Reject</button>
+          </div>
+          <div v-if="doc.answered || !doc.rejected">
+            <hr>
+            <h4>Answered</h4>
+            <div class="form-group">
+              <label for="time_to_fix">Time to Fix</label>
+              <input v-model="doc.time_to_fix" type="number" class="form-control" id="time_to_fix" placeholder="time (in minutes) it took to fix" v-bind:disabled="doc.answered || doc.rejected">
+            </div>
+            <button v-if="!doc.answered && !doc.rejected"class="btn btn-success" v-on:click="answered(doc._id)">Answered</button>
+          </div>
+        </div>  
+      </div>
+
+    </div>
 
     <!-- profile editor -->
     <div v-if="mode==='profile'" class="container">

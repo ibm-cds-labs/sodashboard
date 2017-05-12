@@ -13,6 +13,7 @@ var locateDoc = function(id) {
 var app = new Vue({
   el: '#app',
   data: {
+    doc: null,
     docs: null,
     userlist: null,
     mode: 'startup',
@@ -45,6 +46,13 @@ var app = new Vue({
     }
   },
   methods: {
+    edit: function(docid) {
+      db.get(docid).then(function(data) {
+        app.doc = data;
+        app.mode = 'edit';
+        window.location.hash = '#edit?' + docid;
+      });
+    },
     profileEditor: function() {
       // load the user profile
       db.get(app.loggedinuser._id).then(function(data) {
@@ -167,7 +175,12 @@ var app = new Vue({
     assign: function(id) {
       // called when someone clicks the assign button
       // find the doc that was rejected an update the database
-      var doc = locateDoc(id);
+      var doc = null;
+      if (app.mode === 'edit') {
+        doc = app.doc;
+      } else {
+        doc = locateDoc(id);
+      }
       if (doc) {
         doc.assigned = true;
         doc.assigned_by = app.loggedinuser.user_id;
@@ -187,7 +200,13 @@ var app = new Vue({
     reject: function(id) {
       // called when someone calls the reject button
       // find the doc that was rejected and update the database
-      var doc = locateDoc(id);
+      var doc = null;
+      if (app.mode === 'edit') {
+        doc = app.doc;
+      } else {
+        doc = locateDoc(id);
+      }
+
       if (doc) {
         doc.rejected = true;
         doc.rejected_by = app.loggedinuser.user_id;
@@ -202,7 +221,12 @@ var app = new Vue({
     answered: function(id) {
       // called when someone hits the answered button
       // find the doc that was answered and update the database
-      var doc = locateDoc(id);
+      var doc = null;
+      if (app.mode === 'edit') {
+        doc = app.doc;
+      } else {
+        doc = locateDoc(id);
+      }
       if (doc) {
         doc.answered = true;
         doc.answered_by = app.loggedinuser.user_id;
@@ -276,6 +300,11 @@ db.get('_local/user').then(function(data) {
       app.profileEditor();
     } else if (hash === 'mytickets') {
       app.myTickets();
+    } else if (hash.match(/^edit/)) {
+      var match = hash.match(/[0-9]+$/);
+      if (match) {
+        app.edit(match[0]);
+      }
     }
   }
 

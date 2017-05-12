@@ -1,4 +1,5 @@
 .DS_Store
 node_modules
 ngrok.sh
+npm-debug.log
 start.sh
