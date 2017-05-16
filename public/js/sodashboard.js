@@ -25,7 +25,6 @@ var app = new Vue({
     syncComplete: false,
     search: '',
     notetxt: '',
-    customtags: '',
     customtagsedit: false
   },
   computed: {
@@ -73,8 +72,7 @@ var app = new Vue({
         app.doc = data;
         app.mode = 'edit';
         app.notetxt = '';
-        app.customtags = data.question.custom_tags ? data.question.custom_tags.join(', ') : '';
-        app.customtagsedit = !data.question.custom_tags;
+        app.customtagsedit = !data.question.custom_tags || data.question.custom_tags.length === 0;
         window.location.hash = '#edit?' + docid;
       });
     },
@@ -284,8 +282,8 @@ var app = new Vue({
     editcustomtags: function(id) {
       if (app.doc) {
         if (app.customtagsedit) {
-          if (app.customtags) {
-            app.doc.question.custom_tags = app.customtags.split(',').map(function (tag) {
+          if (app.doc.question.custom_tags) {
+            app.doc.question.custom_tags = app.doc.question.custom_tags.split(',').map(function (tag) {
               return tag.trim();
             });
           }
