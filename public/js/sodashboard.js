@@ -24,7 +24,9 @@ var app = new Vue({
     syncError: false,
     syncComplete: false,
     search: '',
-    notetxt: ''
+    notetxt: '',
+    customtags: '',
+    customtagsedit: false
   },
   computed: {
     sortedDocs: function () {
@@ -71,6 +73,8 @@ var app = new Vue({
         app.doc = data;
         app.mode = 'edit';
         app.notetxt = '';
+        app.customtags = data.question.custom_tags ? data.question.custom_tags.join(', ') : '';
+        app.customtagsedit = !data.question.custom_tags;
         window.location.hash = '#edit?' + docid;
       });
     },
@@ -275,6 +279,28 @@ var app = new Vue({
           app.removeFromList(id);
           app.notify('Question ' + doc._id + ' answered');
         });
+      }
+    },
+    editcustomtags: function(id) {
+      if (app.doc) {
+        if (app.customtagsedit) {
+          if (app.customtags) {
+            app.doc.question.custom_tags = app.customtags.split(',').map(function (tag) {
+              return tag.trim();
+            });
+          }
+          else {
+            app.doc.question.custom_tags = [];
+          }
+
+          db.put(app.doc).then(function(data) {
+            app.doc._rev = data.rev;
+            app.customtagsedit = false;
+          });
+        }
+        else {
+          app.customtagsedit = true;
+        }
       }
     },
     removeFromList: function(id) {
