@@ -119,7 +119,7 @@
         </div>
         <div class="col-md-3">
           <div class="row"><span v-for="tag in doc.question.tags" class="label label-default tag">{{ tag }}</span></div>
-          <div class="row"><span v-for="ctag in doc.question.custom_tags" class="ctag">{{ ctag }}</span></div>
+          <div class="row"><span v-for="ctag in doc.custom_tags" class="ctag">{{ ctag }}</span></div>
         </div>
         <div class="col-md-2">
           <select v-bind:disabled="doc.answered || doc.rejected" v-model="doc.owner">
@@ -150,9 +150,9 @@
         <div class="panel-heading">Status</div>
         <div class="panel-body">
           <h4>Custom Tags</h4>
-          <div v-show="!customtagsedit"><span v-for="ctag in doc.question.custom_tags" class="ctag">{{ ctag }}</span> </div>
+          <div v-show="!customtagsedit"><span v-for="ctag in doc.custom_tags" class="ctag">{{ ctag }}</span> </div>
           <div class="form-group">
-            <input v-model="doc.question.custom_tags" type="string" class="form-control" id="custom_tags" placeholder="Enter tags separated by a comma (e.g., cloudant, envoy, etc)?" v-show="customtagsedit">
+            <input v-model="doc.custom_tags" type="string" class="form-control" id="custom_tags" placeholder="Enter tags separated by a comma (e.g., cloudant, envoy, etc)?" v-show="customtagsedit">
           </div>
           <button class="btn btn-primary" v-on:click="editcustomtags(doc._id)">{{ customtagsedit ? 'Save' : 'Edit' }}</button>  
           <hr>
