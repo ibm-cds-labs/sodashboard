@@ -80,20 +80,15 @@
     <div v-if="mode==='startup'" class="container">
       <!-- Example row of columns -->
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
           <h2>My Tickets</h2>
           <p>See a list of tickets assigned to you that don't yet have an answer.</p>
           <p><a v-on:click="myTickets" class="btn btn-default" href="#" role="button">My Tickets &raquo;</a></p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
           <h2>Unassigned tickets</h2>
           <p>If you are on Stack Overflow triage duty, then this is where you can find the tickets that need a home.</p>
           <p><a v-on:click="unAssignedTickets" class="btn btn-default" href="#" role="button">Unassigned tickets &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Heading</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
       </div>
 
@@ -104,35 +99,41 @@
       </footer>
     </div> <!-- /container -->
 
-    <!-- list of docments editor -->
+    <!-- list of documents -->
     <div v-if="mode==='unassigned' || mode === 'mytickets' || mode === 'search'" class="container">
-      <h2>{{ mode }} <span class="badge" v-if="numDocs">{{ docs.length }}</span></h2>
-      <div class="row datarow" v-for="doc in sortedDocs">
-        <div class="col-md-4">
-          <a :href="doc.question.link" target="_new">{{ doc.question.title}}</a> <br />
-          <a class="owner" :href="doc.question.owner.link" target="_new">{{ doc.question.owner.display_name }} ({{ doc.question.owner.reputation }})</a>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>{{ mode }} tickets <span class="badge" v-if="numDocs">{{ docs.length }}</span></h2>
         </div>
-        <div class="col-md-1">
+      </div>
+
+      <!-- loop through documents -->
+      <div class="row datarow" v-for="doc in sortedDocs">
+        <div class="col-xs-10 col-md-5">
+               <span class="question-title"><a :href="doc.question.link" target="_new">{{ doc.question.title}}</a></span> <br />
+              <a class="owner" :href="doc.question.owner.link" target="_new">{{ doc.question.owner.display_name }} ({{ doc.question.owner.reputation }})</a>
+        </div>
+        <div class="col-xs-2 col-md-1">
           <span class="badge">{{ doc.question.answer_count }}</span>
           <span v-if="doc.answered" class="badge answered"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
           <span v-if="doc.rejected" class="badge rejected"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></span>
         </div>
-        <div class="col-md-3">
-          <div class="row"><span v-for="tag in doc.question.tags" class="label label-default tag">{{ tag }}</span></div>
-          <div class="row"><span v-for="ctag in doc.custom_tags" class="ctag">{{ ctag }}</span></div>
+        <div class="col-xs-12 col-md-4">
+              <span v-for="tag in doc.question.tags">
+                <span class="label label-default tag">{{ tag }}</span>
+                <span class="spacerbreaker"> </span>
+              </span>
+              <span v-for="ctag in doc.custom_tags">
+                <span class="ctag">{{ ctag }}</span>
+                <span class="spacerbreaker"> </span>
+              </span>
         </div>
-        <div class="col-md-2">
-          <select v-bind:disabled="doc.answered || doc.rejected" v-model="doc.owner">
-            <option value="">----</option>
-            <option v-for="(user, i) in userlist" :value="i">{{ user }}</option>
-          </select>
-          <button v-if="!doc.answered && !doc.rejected" class="btn btn-default" v-on:click="assign(doc._id)">Assign</button>
-        </div>
-        <div class="col-md-2">
+        <div class="col-xs-12 col-md-2">
           <button v-on:click="edit(doc._id)" class="btn btn-default">Edit</button>
         </div>
-      </div>
-    </div> <!--- container -->
+      </div><!-- end loop through documents -->
+
+    </div> <!--- end list of documents container -->
 
     <!-- single document edit -->
     <div v-if="mode==='edit' && doc" class="container">
@@ -140,79 +141,137 @@
       <div class="panel panel-default">
         <div class="panel-heading">Stack Overflow data</div>
         <div class="panel-body">
-          <div>ID {{doc._id}}</div>
-          <div>Title:  <a :href="doc.question.link" target="_new">{{ doc.question.title}}</a></div>
-          <div>Creator: <a class="owner" :href="doc.question.owner.link" target="_new">{{ doc.question.owner.display_name }} ({{ doc.question.owner.reputation }})</a></div>
-          <div>Tags: <span v-for="tag in doc.question.tags" class="label label-default tag">{{ tag }}</span> </div>
-        </div>
-      </div>
+          <div class="row">
+            <div class="col-xs-2">ID:</div>
+            <div class="col-xs-10">{{doc._id}}</div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2">Title:</div>
+            <div class="col-xs-10"><a :href="doc.question.link" target="_new">{{ doc.question.title}}</a></div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2">Creator:</div>
+            <div class="col-xs-10"><a class="owner" :href="doc.question.owner.link" target="_new">{{ doc.question.owner.display_name }} ({{ doc.question.owner.reputation }})</a></div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2">Tags:</div>
+            <div class="col-xs-10">
+              <span v-for="tag in doc.question.tags">
+                <span class="label label-default tag">{{ tag }}</span>
+                <span class="spacerbreaker"> </span>
+              </span>
+            </div>
+          </div>
+          </div>
+      </div><!--end Stack Overflow data panel-->
       <div class="panel panel-default">
-        <div class="panel-heading">Status</div>
+        <div class="panel-heading">Custom Tags</div>
         <div class="panel-body">
-          <h4>Custom Tags</h4>
-          <div v-show="!customtagsedit"><span v-for="ctag in doc.custom_tags" class="ctag">{{ ctag }}</span> </div>
-          <div class="form-group">
-            <input v-model="doc.custom_tags" type="string" class="form-control" id="custom_tags" placeholder="Enter tags separated by a comma (e.g., cloudant, envoy, etc)?" v-show="customtagsedit">
-          </div>
-          <button class="btn btn-primary" v-on:click="editcustomtags(doc._id)">{{ customtagsedit ? 'Save' : 'Edit' }}</button>  
-          <hr>
-          <h4>Ownership</h4>
-          <select v-model="doc.owner" v-bind:disabled="doc.answered || doc.rejected">
-            <option value="">----</option>
-            <option v-for="(user, i) in userlist" :value="i">{{ user }}</option>
-          </select>
-          <button  v-if="!doc.answered && !doc.rejected" class="btn btn-default" v-on:click="assign(doc._id)">Assign</button>  
-          <div v-if="doc.rejected || !doc.answered" >   
-            <hr>
-            <h4>Rejected</h4>
-            <div class="form-group">
-              <label for="rejection_reason">Reason</label>
-              <input v-model="doc.rejection_reason" type="string" class="form-control" id="rejection_reason" placeholder="why was this question rejected?" v-bind:disabled="doc.answered || doc.rejected">
+          <div class="row">
+            <div class="col-md-12">
+              <div v-show="!customtagsedit">
+                <span v-for="ctag in doc.custom_tags" class="ctag">{{ ctag }}</span>
+              </div>
             </div>
-            <button v-if="!doc.answered && !doc.rejected" class="btn btn-danger" v-on:click="reject(doc._id)">Reject</button>
           </div>
+          <div class="row">
+            <div class="col-md-10">
+              <div class="form-group">
+                <input v-model="doc.custom_tags" type="string" class="form-control" id="custom_tags" placeholder="Enter tags separated by a comma (e.g., cloudant, envoy, etc)?" v-show="customtagsedit">
+              </div>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary" v-on:click="editcustomtags(doc._id)">{{ customtagsedit ? 'Save' : 'Edit' }}</button>
+            </div>
+          </div>
+        </div>
+      </div><!--end custom tags panel-->
+
+      <div class="panel panel-default">
+        <div class="panel-heading">Change Status</div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-2 col-xs-12">
+              <h4>Ownership</h4>
+            </div>
+            <div class="col-md-10 col-xs-10">
+              <select v-model="doc.owner" v-bind:disabled="doc.answered || doc.rejected">
+                <option value="">----</option>
+                <option v-for="(user, i) in userlist" :value="i">{{ user }}</option>
+              </select>
+              <button  v-if="!doc.answered && !doc.rejected" class="btn btn-default" v-on:click="assign(doc._id)">Assign</button>
+            </div>
+          </div>
+          <div v-if="doc.rejected || !doc.answered">
+            <div class="row"><div class="col-md-12"><hr></div></div>
+            <div class="row">
+              <div class="col-md-2 col-xs-12">
+                <h4>Rejected</h4>
+              </div>
+              <div class="col-md-8 form-group">
+                <!--<label for="rejection_reason">Reason</label>-->
+                <input v-model="doc.rejection_reason" type="string" class="form-control" id="rejection_reason" placeholder="Why was this question rejected?" v-bind:disabled="doc.answered || doc.rejected">
+              </div>
+              <div class="col-md-2">
+                <button v-if="!doc.answered && !doc.rejected" class="btn btn-danger" v-on:click="reject(doc._id)">Reject</button>
+              </div>
+            </div>
+          </div><!--end reject-->
           <div v-if="doc.answered || !doc.rejected">
-            <hr>
-            <h4>Answered</h4>
-            <div class="form-group">
-              <label for="time_to_fix">Time to Fix</label>
-              <input v-model="doc.time_to_fix" type="number" class="form-control" id="time_to_fix" placeholder="time (in minutes) it took to fix" v-bind:disabled="doc.answered || doc.rejected">
+            <div class="row"><div class="col-md-12"><hr></div></div>
+            <div class="row">
+              <div class="col-md-2 col-xs-12">
+                <h4>Answered</h4>
+              </div>
+              <div class="col-md-8 form-group">
+                <!--<label for="time_to_fix">Time to Fix</label>-->
+                <input v-model="doc.time_to_fix" type="number" class="form-control" id="time_to_fix" placeholder="time (in minutes) it took to fix" v-bind:disabled="doc.answered || doc.rejected">
+              </div>
+              <div class="col-md-2">
+                <button v-if="!doc.answered && !doc.rejected"class="btn btn-success" v-on:click="answered(doc._id)">Answer</button>
+              </div>
             </div>
-            <button v-if="!doc.answered && !doc.rejected"class="btn btn-success" v-on:click="answered(doc._id)">Answered</button>
-          </div>
+          </div><!--end answer-->
         </div>  
-      </div>
+      </div><!--end change status panel-->
 
       <div class="panel panel-default">
         <div class="panel-heading">Notes</div>
         <div class="panel-body">
-          <table class="table table-condensed">
-            <tr v-if="doc.notes">
-              <th>note</th>
-              <th>who</th>
-              <th>when</th>
-            </tr>
-            <tr v-for="note in doc.notes">
-              <td>{{ note.note }}</td>
-              <td>{{ note.who }}</td>
-              <td>{{ note.time }}</td>
-            </tr>
-            <tr>
-              <td colspan="3">
-                <form v-on:submit.prevent="addNote" class="form-inline">
-                  <div class="form-group">
-                    <label for="note">Add Note</label>
-                    <input v-model="notetxt" type="text" class="form-control" id="note" placeholder="note text">
-                  </div>
-                  <button type="submit" class="btn btn-default">Save</button>
-                </form>
-              </td>
-            </tr>
-          </table>
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-condensed">
+                <tr v-if="doc.notes">
+                  <th colspan="6">what</th>
+                  <th>who</th>
+                  <th>when</th>
+                </tr>
+                <tr v-for="note in doc.notes">
+                  <td colspan="6">{{ note.note }}</td>
+                  <td>{{ note.who }}</td>
+                  <td>{{ note.time }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <h4>New Note</h4>
+            </div>
+            <form v-on:submit.prevent="addNote">
+              <div class="col-md-8 form-group">
+                <!--<label for="note"><h4>New Note</h4></label>-->
+                <input v-model="notetxt" type="text" class="form-control" id="note" placeholder="note text">
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-default">Post</button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+      </div><!--end notes panel-->
 
-    </div> <!-- single document edit -->
+    </div> <!-- end single document edit -->
 
     <!-- profile editor -->
     <div v-if="mode==='profile'" class="container">

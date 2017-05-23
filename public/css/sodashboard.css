@@ -10,7 +10,7 @@ body {
 }
 
 #loggedinuser a:hover  {
-  text-decoration: none
+  text-decoration: none;
 }
 
 #syncStatus {
@@ -23,7 +23,6 @@ body {
 }
 
 .tag {
-  margin-right:5px;
   white-space: normal;
 }
 
@@ -55,15 +54,23 @@ body {
 }
 
 .answered {
-  background-color: green
+  background-color: green;
 }
 
 .rejected {
-  background-color: red
+  background-color: red;
 }
 
 .datarow {
-  margin-bottom: 15px
+  margin-bottom: 32px;
+  border-top: 2px solid #eee;
+}
+.datarow>div {
+  margin-bottom: 12px;
+}
+
+.question-title {
+  font-size: 125%;
 }
 
 [data-notify="progressbar"] {
