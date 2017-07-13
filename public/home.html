@@ -308,23 +308,17 @@
       <div class="alert alert-info form-horizontal">
         <h2>Profile</h2>
         <div class="form-group">
-          <label for="slackid" class="col-sm-3 control-label">Slack ID</label>
-          <div class="col-sm-9">
-            <input v-model="profile.user_id" type="string" class="form-control" id="slackid" readonly>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="slackname" class="col-sm-3 control-label">Slack name</label>
-          <div class="col-sm-9">
-            <input v-model="profile.user_name" type="string" class="form-control" id="slackname" readonly >
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="soid" class="col-sm-3 control-label">Stack Overflow ID</label>
+          <label for="soid" class="col-sm-3 control-label">Stack Overflow</label>
           <div class="col-sm-9">
             <input v-model="profile.so_id" type="string" class="form-control" id="soid">
           </div>
-          <p class="help-block col-sm-9 col-sm-offset-3">We need to know your Stack Overflow identity too. Enter the number that appears in your Stack Overflow profile URL so we can tell whether you have answered a question.
+          <p class="help-block col-sm-9 col-sm-offset-3">We need to know your Stack Overflow identity. Navigate to the Activity Tab in your Stack Overflow profile and enter that URL here so we can tell whether you have answered a question.
+          </p>
+          <label for="soid" class="col-sm-3 control-label">Slack Organization</label>
+          <div class="col-sm-9">
+            <input v-model="profile.so_id" type="string" class="form-control" id="soid">
+          </div>
+          <p class="help-block col-sm-9 col-sm-offset-3">Tell us know which Slack organization you belong to. For example: "ibm-cloudplatform"
           </p>
         </div>
         <div class="form-group">
