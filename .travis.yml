@@ -1,3 +1,14 @@
 language: node_js
 node_js:
-  - "node"
+- node
+deploy:
+  provider: cloudfoundry
+  api: https://api.ng.bluemix.net
+  username: lorna.mitchell@uk.ibm.com
+  password:
+    secure: DlrYGAb/ITheFqhkh7rSvxuVE+5Iwwsj2vVPEJltUztX7Aq/38RABCTg8nRe9mqDBRUdapwqxHye+drTys2BNT2BrXmUzAnth7kIY+pDXBUkHWywoXbqx9DKLhpCvgTZqxsqoEO8iGgKDMgIsSA/3hZBe2Vd1UIlUAiWz1XVnSJeqQgKcsEJ8Cp1QzbEA1t84NNKE0zaYMur0ermI+8GDnDSB+bkTSM8PDSELfSExsSBFCzo12S7714s4+ja8lLIyXpR3AbM1Gq/uyCezsOCXV8zhi1tUwiTzxpJLFdYvmrN4JI9IqlKafeHf6vHgKy9TmVXNs3pwXeoe1YUY7I8IrYQMuAseLqFHU8HXicMXeSq+KHN3ibi1HvS6sBAuqsB9whp9LGlq4yngI/aw7e99RwZ7G/N0lBX7PhjPLTm3r0UQWLwuuyASljz1DqSJGE6KC42JraD382gFvwHIptL8MwKQmJ0Jif5F1+Bw9idZQTHtKxjy5gkdHzD4I3W/QHiGtbf/insdEpygbyMNe897BlFYp2RXgk/AlRhxPBotev/0wd6qxfDzN2EO2bWfh3kr3J264Joa6l5BRyqQj5VLB9DG0q53in3Q0JhzTC9eI/ZKpcN+C0W/Lo6lXHpa1G/J8MIPRzn3HA0XP8r3KhxSecpqIBOjqNem7Zcz1Ah0Cc=
+  organization: Watson-Data-Lab
+  space: stack-overflow
+  on:
+    repo: ibm-watson-data-lab/sodashboard
+    branch: travis
