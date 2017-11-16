@@ -1,5 +1,5 @@
 applications:
-- name: sodashboard
+- name: sodashboard-beta
   memory: 512M
   instances: 1
   domain: mybluemix.net
