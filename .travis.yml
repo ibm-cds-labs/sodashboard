@@ -11,7 +11,7 @@ before_deploy:
 - ./Bluemix_CLI/bin/bluemix config --check-version false
 - ./Bluemix_CLI/bin/bluemix api https://api.ng.bluemix.net
 - ./Bluemix_CLI/bin/bluemix login --apikey $BXIAM
-- ./Bluemix_CLI/bin/bluemix target -o Watson-Data-Lab -s stackoverflow
+- ./Bluemix_CLI/bin/bluemix target -o Watson-Data-Lab -s stack-overflow
 deploy: 
   provider: script
   script: deploy.sh
