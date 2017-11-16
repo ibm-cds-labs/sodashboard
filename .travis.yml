@@ -2,7 +2,7 @@ language: node_js
 node_js:
 - node
 before_deploy: 
-  curl -fsSL https://clis.ng.bluemix.net/install/linux | sh
-  bx --version
+- curl -fsSL https://clis.ng.bluemix.net/install/linux | sh
+- bx --version
 deploy:
-  echo "I am deploying"
+- echo "I am deploying"
