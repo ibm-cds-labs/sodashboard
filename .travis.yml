@@ -4,5 +4,4 @@ node_js:
 before_deploy: 
 - curl -fsSL https://clis.ng.bluemix.net/install/linux | sh
 - bx --version
-deploy:
-- echo "I am deploying"
+deploy: echo "I am deploying"
