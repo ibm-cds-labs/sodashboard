@@ -2,7 +2,11 @@ language: node_js
 node_js:
 - node
 before_deploy: 
-- curl -fsSL https://clis.ng.bluemix.net/install/linux | sh
-- bx --version
+  - curl -fsSL https://clis.ng.bluemix.net/install/linux | sh
+  - bx --version
 deploy: 
-- script: echo "I am deploying"
+  script: echo "I am deploying"
+  on:
+    repo: ibm-watson-data-lab/sodashboard
+    branch: travis
+
