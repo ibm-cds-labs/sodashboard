@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "Deploying ..."
+# do nothing, we're good
