@@ -12,8 +12,8 @@ before_deploy:
 - ./Bluemix_CLI/bin/bluemix api https://api.ng.bluemix.net
 - ./Bluemix_CLI/bin/bluemix login --apikey $BXIAM
 - ./Bluemix_CLI/bin/bluemix target -o Watson-Data-Lab -s stack-overflow
-- ./Bluemix_CLI/bin/bluemix set-env sodashboard-beta CLOUDANT_URL $CLOLUDANT_URL
-- ./Bluemix_CLI/bin/bluemix set-env sodashboard-beta CLOUDANT_DB $CLOLUDANT_DB
+- ./Bluemix_CLI/bin/bluemix cf set-env sodashboard-beta CLOUDANT_URL $CLOLUDANT_URL
+- ./Bluemix_CLI/bin/bluemix cf set-env sodashboard-beta CLOUDANT_DB $CLOLUDANT_DB
 - ./Bluemix_CLI/bin/bluemix cf push
 
 deploy: 
