@@ -1,0 +1,26 @@
+language: node_js
+sudo: required
+node_js:
+- node
+before_deploy: 
+- echo "Stand by..."
+- wget https://clis.ng.bluemix.net/download/bluemix-cli/0.6.1/linux64
+- mv linux64 Bluemix_CLI.tar.gz
+- tar -xzvf Bluemix_CLI.tar.gz
+- chmod a+x Bluemix_CLI/bin/bluemix
+- ./Bluemix_CLI/bin/bluemix config --check-version false
+- ./Bluemix_CLI/bin/bluemix api https://api.ng.bluemix.net
+- ./Bluemix_CLI/bin/bluemix login --apikey $BXIAM
+- ./Bluemix_CLI/bin/bluemix target -o Watson-Data-Lab -s stack-overflow
+- ./Bluemix_CLI/bin/bluemix cf set-env sodashboard-beta CLOUDANT_URL $CLOUDANT_URL
+- ./Bluemix_CLI/bin/bluemix cf set-env sodashboard-beta CLOUDANT_DB $CLOUDANT_DB
+- ./Bluemix_CLI/bin/bluemix cf push
+
+deploy: 
+  provider: script
+  script: deploy.sh
+  on:
+    repo: ibm-watson-data-lab/sodashboard
+    branch: travis
+  skip_cleanup: true
+
